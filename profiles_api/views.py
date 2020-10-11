@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
 
 from .permissions import *
 from .serializers import *
@@ -63,3 +65,9 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ['name', 'email']
     # specify which fields to search for using filter backend
+
+
+class UserLoginAPIView(ObtainAuthToken):
+    """Generating authentication token"""
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+    # to be able to test it in the browser version
