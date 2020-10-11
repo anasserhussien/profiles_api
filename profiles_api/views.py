@@ -3,9 +3,12 @@ from rest_framework.views import(
     APIView
 )
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, viewsets
+from rest_framework.authentication import TokenAuthentication
 
-from .serializers import TestSerializer
+from .permissions import *
+from .serializers import *
+from .models import *
 
 
 # Create your views here.
@@ -48,3 +51,11 @@ class TestAPIView(APIView):
     def delete(self, request, pk=None):
         """Delete an object"""
         pass
+
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """Handle creating updating profiles"""
+    serializer_class = UserProfileSerializer
+    queryset = UserProfile.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [UpdateOwnProfile]
